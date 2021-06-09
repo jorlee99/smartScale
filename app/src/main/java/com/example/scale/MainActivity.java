@@ -3,7 +3,7 @@ package com.example.scale;
 import android.widget.EditText;
 import androidx.appcompat.app.AppCompatActivity;
 
-
+import android.view.View;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     
         Button btn_ResetInputs = (Button)findViewById(R.id.Reset);
 
-        btn_ResetInputs.setOnClickListener(new OnClickListener(){
+        btn_ResetInputs.setOnClickListener(new View.OnClickListener(){
           @Override
           public void onClick(View v) {
             findViewById(R.id.autoCompleteTextView).setText("");
