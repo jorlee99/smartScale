@@ -1,53 +1,111 @@
-//public class AutoCompleteAdapter extends ArrayAdapter<Style> implements Filterable {
-//    private ArrayList<Style> mData;
+//package com.example.scale;
 //
-//    public AutoCompleteAdapter(Context context, int textViewResourceId) {
-//        super(context, textViewResourceId);
-//        mData = new ArrayList<Style>();
+//class AutoCompleteAdapter extends ArrayAdapter<String> implements Filterable
+//{
+//    private ArrayList<String> data;
+//    private final String server = "http://myserver/script.php?query=";
+//
+//    AutoCompleteAdapter (@NonNull Context context, @LayoutRes int resource)
+//    {
+//        super (context, resource);
+//        this.data = new ArrayList<>();
 //    }
 //
 //    @Override
-//    public int getCount() {
-//        return mData.size();
+//    public int getCount()
+//    {
+//        return data.size();
 //    }
 //
+//    @Nullable
 //    @Override
-//    public Style getItem(int index) {
-//        return mData.get(index);
+//    public String getItem (int position)
+//    {
+//        return data.get (position);
 //    }
 //
+//    @NonNull
 //    @Override
-//    public Filter getFilter() {
-//        Filter myFilter = new Filter() {
+//    public Filter getFilter()
+//    {
+//        return new Filter()
+//        {
 //            @Override
-//            protected FilterResults performFiltering(CharSequence constraint) {
-//                FilterResults filterResults = new FilterResults();
-//                if(constraint != null) {
-//                    // A class that queries a web API, parses the data and returns an ArrayList<Style>
-//                    StyleFetcher fetcher = new StyleFetcher();
-//                    try {
-//                        mData = fetcher.retrieveResults(constraint.toString());
+//            protected FilterResults performFiltering (CharSequence constraint)
+//            {
+//                FilterResults results = new FilterResults();
+//                if (constraint != null)
+//                {
+//                    HttpURLConnection conn = null;
+//                    InputStream input = null;
+//                    try
+//                    {
+//                        URL url = new URL (server + constraint.toString());
+//                        conn = (HttpURLConnection) url.openConnection();
+//                        input = conn.getInputStream();
+//                        InputStreamReader reader = new InputStreamReader (input, "UTF-8");
+//                        BufferedReader buffer = new BufferedReader (reader, 8192);
+//                        StringBuilder builder = new StringBuilder();
+//                        String line;
+//                        while ((line = buffer.readLine()) != null)
+//                        {
+//                            builder.append (line);
+//                        }
+//                        JSONArray terms = new JSONArray (builder.toString());
+//                        ArrayList<String> suggestions = new ArrayList<>();
+//                        for (int ind = 0; ind < terms.length(); ind++)
+//                        {
+//                            String term = terms.getString (ind);
+//                            suggestions.add (term);
+//                        }
+//                        results.values = suggestions;
+//                        results.count = suggestions.size();
+//                        data = suggestions;
 //                    }
-//                    catch(Exception e) {
-//                        Log.e("myException", e.getMessage());
+//                    catch (Exception ex)
+//                    {
+//                        ex.printStackTrace();
 //                    }
-//                    // Now assign the values and count to the FilterResults object
-//                    filterResults.values = mData;
-//                    filterResults.count = mData.size();
+//                    finally
+//                    {
+//                        if (input != null)
+//                        {
+//                            try
+//                            {
+//                                input.close();
+//                            }
+//                            catch (Exception ex)
+//                            {
+//                                ex.printStackTrace();
+//                            }
+//                        }
+//                        if (conn != null) conn.disconnect();
+//                    }
 //                }
-//                return filterResults;
+//                return results;
 //            }
 //
 //            @Override
-//            protected void publishResults(CharSequence contraint, FilterResults results) {
-//                if(results != null && results.count > 0) {
-//                notifyDataSetChanged();
+//            protected void publishResults (CharSequence constraint, FilterResults results)
+//            {
+//                if (results != null && results.count > 0)
+//                {
+//                    notifyDataSetChanged();
 //                }
-//                else {
-//                    notifyDataSetInvalidated();
-//                }
+//                else notifyDataSetInvalidated();
 //            }
 //        };
-//        return myFilter;
+//    }
+//and use it the same way:
+//
+//public class MyActivity extends Activity
+//{
+//    @Override
+//    public void onCreate(Bundle savedInstanceState) {
+//        ...
+//        AutoCompleteTextView textView = (AutoCompleteTextView) findViewById (R.id.style);
+//        int layout = android.R.layout.simple_list_item_1;
+//        AutoCompleteAdapter adapter = new AutoCompleteAdapter (this, layout);
+//        textView.setAdapter (adapter);
 //    }
 //}
