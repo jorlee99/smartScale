@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        EditText weight = findViewById(R.id.Edit_Text);
         AutoCompleteTextView editText = findViewById(R.id.autoCompleteTextView);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, FOODS);
         editText.setAdapter(adapter);
@@ -30,8 +31,8 @@ public class MainActivity extends AppCompatActivity {
         btn_ResetInputs.setOnClickListener(new View.OnClickListener(){
           @Override
           public void onClick(View v) {
-            findViewById(R.id.autoCompleteTextView).setText("");
-            findViewById(R.id.Edit_Text).setText("");
+              editText.setText("");
+              weight.setText("");
           }
         });
 //        AutoCompleteTextView foodList = findViewById(R.id.Foodlist);
